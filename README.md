@@ -4,7 +4,8 @@ A web-based project that demonstrates CPU scheduling algorithms through interact
 ---
 
 ## 🔗 Live Demo  
-👉 *[taskweave-cpu-algo-simulator.netlify.app]*  
+👉 [TaskWeave Live Demo](https://taskweave-cpu-algo-simulator.netlify.app)
+
 
 ## 🧰 Tech Stack  
 🧱 **HTML5** – Structure & content  
