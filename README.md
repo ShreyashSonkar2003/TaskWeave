@@ -42,6 +42,6 @@ Feel free to reach out 👇
 🐱 GitHub: [ShreyashSonkar2003](https://github.com/ShreyashSonkar2003)  
 
 ## ℹ️ About  
-A modern **CPU Scheduling Simulator** designed for **Operating Systems learners** to experiment with different scheduling techniques. Built with **HTML, CSS, JavaScript, and Python**, featuring Gantt chart visualizations, dynamic input handling, and clean UI.  
+A modern **CPU Scheduling Simulator** designed for **Operating Systems learners** to experiment with different scheduling techniques. Built with **HTML, CSS, JavaScript**, featuring Gantt chart visualizations, dynamic input handling, and clean UI.  
 
 ⭐ If you find this project useful, don’t forget to **star the repo**!  
