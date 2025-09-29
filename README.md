@@ -22,7 +22,7 @@ A web-based project that demonstrates CPU scheduling algorithms through interact
 
 ## 💡 Features  
 ✅ Add multiple processes with **arrival time, burst time, and priority**  
-✅ Supports **multiple scheduling algorithms** (FCFS, SJF, SRTF, RR, etc.)  
+✅ Supports **multiple scheduling algorithms** (FCFS, SJF, RR)  
 ✅ **Time quantum input** for Round Robin scheduling  
 ✅ Generates a **Gantt chart** dynamically  
 ✅ Displays **waiting time, turnaround time, and averages**  
@@ -31,9 +31,7 @@ A web-based project that demonstrates CPU scheduling algorithms through interact
 ## 📖 Implemented Scheduling Algorithms  
 - 🕒 **First Come First Serve (FCFS)**  
 - ⚡ **Shortest Job First (SJF)**  
-- ⏳ **Shortest Remaining Time First (SRTF)**  
 - 🔁 **Round Robin (RR)**  
-- ⭐ **Priority Scheduling** (if included in your code)  
 
 ## 📬 Contact Me  
 Feel free to reach out 👇  
