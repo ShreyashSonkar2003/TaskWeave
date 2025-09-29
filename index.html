@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPU Scheduling Simulator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <h1>CPU Scheduling Simulator</h1>
+        
+        <div id="processInputSection">
+            <label>Enter Processes:</label>
+            <div id="processInputBox">
+                <div class="process-input-row">
+                    <input type="text" class="process-id-field" id="extraOptions" placeholder="Process ID" />
+                    <input type="number" class="arrival-time-field" id="extraOptions" placeholder="Arrival Time" />
+                    <input type="number" class="burst-time-field" id="extraOptions" placeholder="Burst Time" />
+                </div>
+            </div>
+            <button id="addProcessButton">Add Process</button>
+            <button onclick="startSimulation()">Start Simulation</button>
+
+            <label for="algorithm">Choose Algorithm:</label>
+            <select id="algorithmSelect">
+                <option value="fcfs">First-Come-First-Served (FCFS)</option>
+                <option value="sjf">Shortest Job First (SJF)</option>
+                <option value="rr">Round Robin (RR)</option>
+            </select>
+
+            <div id="quantumInputField" style="display:none;">
+                <label>Time Quantum (For Round Robin): </label>
+                <input type="number" id="quantumDisplay" value="4">
+            </div>
+        </div>
+
+        <div id="ganttChartSection" style="overflow: auto; width: 100%; height: 250px;">
+            <h2>Gantt Chart</h2>
+            <canvas id="ganttChartCanvas" width="1600" height="200"></canvas>
+        </div>
+        
+        <div id="outputSection">
+            <h2>Simulation Output</h2>
+            <p id="simulationResultBox"></p>
+        </div>
+
+        <div id="resultSection">
+            <h2>Detailed Result</h2>
+            <pre id="detailedResultBox"></pre>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
