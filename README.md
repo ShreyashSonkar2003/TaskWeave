@@ -11,7 +11,6 @@ A web-based project that demonstrates CPU scheduling algorithms through interact
 🧱 **HTML5** – Structure & content  
 🎨 **CSS3** – Styling, layout & responsiveness  
 ✨ **JavaScript** – Logic & interactivity  
-🐍 **Python** – Scheduling backend calculations  
 📊 **SVG/Canvas** – Gantt chart visualization  
 
 ## 📁 Project Structure  
@@ -19,7 +18,6 @@ A web-based project that demonstrates CPU scheduling algorithms through interact
 ├── 📄 index.html  
 ├── 🎨 style.css  
 ├── 📜 app.js  
-├── 🐍 scheduling.py  
 └── 📊 Workflow Structure Of CPU_Scheduling.svg  
 
 ## 💡 Features  
