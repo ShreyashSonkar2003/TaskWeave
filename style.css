@@ -16,7 +16,7 @@ body {
     padding: 20px;
 }
 
-.main-container {
+.container {
     background-color: #1e1e1e;
     border-radius: 12px;
     padding: 30px;
@@ -45,10 +45,10 @@ h1 {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
-.process-input-row {
+.process-input {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px; 
+    gap: 15px;
     justify-content: center;
 }
 
@@ -97,12 +97,11 @@ button:hover {
     margin-bottom: 30px;
     animation: slideUp 0.7s ease-in-out;
     overflow: auto; 
-    white-space: nowrap;
+    white-space: nowrap; 
     max-width: 100%;
-    max-height: 300px;
+    max-height: 300px; 
     border: 1px solid #444;
 }
-
 
 #ganttChartSection::-webkit-scrollbar {
     width: 10px;
@@ -125,8 +124,8 @@ button:hover {
 canvas {
     background-color: #333;
     border-radius: 5px;
-    width: 2000px;
-    height: 500px; 
+    width: 2000px; 
+    height: 500px;
 }
 
 #outputSection, #resultSection {
@@ -142,9 +141,8 @@ canvas {
     font-size: 1rem;
     color: #BB86FC;
 }
-
 @media only screen and (max-width: 1200px) {
-    .main-container {
+    .container {
         padding: 20px;
     }
     
@@ -214,7 +212,7 @@ canvas {
 }
 
 @media only screen and (max-width: 576px) {
-    .main-container {
+    .container {
         padding: 15px;
     }
 
@@ -275,7 +273,6 @@ canvas {
     }
 }
 
-/* Animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -304,9 +301,9 @@ canvas {
     margin-bottom: 20px;
     animation: slideUp 0.7s ease-in-out;
     overflow: auto; 
-    white-space: nowrap;
+    white-space: nowrap; 
     max-width: 100%;
-    max-height: 150px; 
+    max-height: 150px;
     border: 1px solid #444;
 }
 
@@ -331,22 +328,22 @@ canvas {
 canvas {
     background-color: #333;
     border-radius: 5px;
-    width: 1800px; 
-    height: 120px;
+    width: 1800px;
+    height: 120px; 
 }
 
-.process-input-row {
+.process-input {
     display: flex;
     gap: 10px;
     margin-bottom: 10px;
 }
 
-.process-input-row input {
+.process-input input {
     padding: 5px;
     width: 120px;
 }
 
-.delete-process-button {
+.deleteProcessBtn {
     background-color: red;
     color: white;
     border: none;
@@ -354,6 +351,6 @@ canvas {
     cursor: pointer;
 }
 
-.delete-process-button:hover {
+.deleteProcessBtn:hover {
     background-color: darkred;
 }

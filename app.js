@@ -1,12 +1,12 @@
 // Fetch elements
-const processInputContainer = document.getElementById("processInputBox");
-const algorithmSelect = document.getElementById("algorithmSelect");
-const timeQuantumInput = document.getElementById("quantumInputField");
-const timeQuantum = document.getElementById("quantumDisplay");
-const ganttCanvas = document.getElementById("ganttChartCanvas");
+const processInputContainer = document.getElementById('processInputContainer');
+const algorithmSelect = document.getElementById('algorithm');
+const timeQuantumInput = document.getElementById('timeQuantumInput');
+const timeQuantum = document.getElementById('timeQuantum');
+const ganttCanvas = document.getElementById('ganttChart');
 const ganttCtx = ganttCanvas.getContext('2d');
-const resultOutput = document.getElementById("simulationResultBox");
-const detailedResultOutput = document.getElementById("detailedResultBox");
+const resultOutput = document.getElementById('simulationResult');
+const detailedResultOutput = document.getElementById('detailedResult');
 
 
 // Display time quantum input only for Round Robin
@@ -18,27 +18,15 @@ algorithmSelect.addEventListener('change', function () {
     }
 });
 
-// Function to add a new process input row
-// document.getElementById("addProcessButton").addEventListener('click', () => {
-//     const newProcessInput = document.createElement('div');
-//     newProcessInput.classList.add("process-input-row");
-//     newProcessInput.innerHTML = `
-//         <input type="text" class="process-id-field" placeholder="Process ID" />
-//         <input type="number" class="arrival-time-field" placeholder="Arrival Time" />
-//         <input type="number" class="burst-time-field" placeholder="Burst Time" />
-//     `;
-//     processInputContainer.appendChild(newProcessInput);
-// });
-
 // Function to parse input
 function parseInput() {
     const processes = [];
-    const inputs = processInputContainer.getElementsByClassName("process-input-row");
+    const inputs = processInputContainer.getElementsByClassName('process-input');
     
     for (let input of inputs) {
-        const id = input.querySelector('.process-id-field').value.trim();
-        const arrival = parseInt(input.querySelector('.arrival-time-field').value.trim());
-        const burst = parseInt(input.querySelector('.burst-time-field').value.trim());
+        const id = input.querySelector('.processId').value.trim();
+        const arrival = parseInt(input.querySelector('.arrivalTime').value.trim());
+        const burst = parseInt(input.querySelector('.burstTime').value.trim());
         
         if (id && !isNaN(arrival) && !isNaN(burst)) {
             processes.push({
@@ -77,12 +65,12 @@ function startSimulation() {
 function fcfs(processes) {
 
     let isValid = true;
-    const inputs = document.querySelectorAll('.process-input-row');
+    const inputs = document.querySelectorAll('.process-input');
 
     inputs.forEach(input => {
-        const id = input.querySelector('.process-id-field').value.trim();
-        const arrival = input.querySelector('.arrival-time-field').value.trim();
-        const burst = input.querySelector('.burst-time-field').value.trim();
+        const id = input.querySelector('.processId').value.trim();
+        const arrival = input.querySelector('.arrivalTime').value.trim();
+        const burst = input.querySelector('.burstTime').value.trim();
         
         if (arrival === '' || burst === '') {
             alert('Process base entity cannot be empty!');
@@ -106,14 +94,14 @@ function fcfs(processes) {
     let time = 0;
     const ganttData = [];
     
-    processes.sort((a, b) => a.arrival-time-field - b.arrival-time-field);  // Sort by arrival time
+    processes.sort((a, b) => a.arrivalTime - b.arrivalTime);  // Sort by arrival time
     
     processes.forEach((proc) => {
-        if (time < proc.arrival-time-field) {
-            time = proc.arrival-time-field;
+        if (time < proc.arrivalTime) {
+            time = proc.arrivalTime;
         }
-        ganttData.push({ id: proc.id, start: time, end: time + proc.burst-time-field });
-        time += proc.burst-time-field;
+        ganttData.push({ id: proc.id, start: time, end: time + proc.burstTime });
+        time += proc.burstTime;
     });
     
     return ganttData;
@@ -123,12 +111,12 @@ function fcfs(processes) {
 function sjf(processes) {
 
     let isValid = true;
-    const inputs = document.querySelectorAll('.process-input-row');
+    const inputs = document.querySelectorAll('.process-input');
 
     inputs.forEach(input => {
-        const id = input.querySelector('.process-id-field').value.trim();
-        const arrival = input.querySelector('.arrival-time-field').value.trim();
-        const burst = input.querySelector('.burst-time-field').value.trim();
+        const id = input.querySelector('.processId').value.trim();
+        const arrival = input.querySelector('.arrivalTime').value.trim();
+        const burst = input.querySelector('.burstTime').value.trim();
         
         if (arrival === '' || burst === '') {
             alert('Process base entity cannot be empty!');
@@ -153,18 +141,18 @@ function sjf(processes) {
     const ganttData = [];
     const queue = [];
 
-    processes.sort((a, b) => a.arrival-time-field - b.arrival-time-field);
+    processes.sort((a, b) => a.arrivalTime - b.arrivalTime);
     
     while (processes.length > 0 || queue.length > 0) {
-        while (processes.length > 0 && processes[0].arrival-time-field <= time) {
+        while (processes.length > 0 && processes[0].arrivalTime <= time) {
             queue.push(processes.shift());
         }
         
         if (queue.length > 0) {
-            queue.sort((a, b) => a.burst-time-field - b.burst-time-field);
+            queue.sort((a, b) => a.burstTime - b.burstTime);
             const proc = queue.shift();
-            ganttData.push({ id: proc.id, start: time, end: time + proc.burst-time-field });
-            time += proc.burst-time-field;
+            ganttData.push({ id: proc.id, start: time, end: time + proc.burstTime });
+            time += proc.burstTime;
         } else {
             time++;
         }
@@ -177,12 +165,12 @@ function sjf(processes) {
 function roundRobin(processes, quantum) {
 
     let isValid = true;
-    const inputs = document.querySelectorAll('.process-input-row');
+    const inputs = document.querySelectorAll('.process-input');
 
     inputs.forEach(input => {
-        const id = input.querySelector('.process-id-field').value.trim();
-        const arrival = input.querySelector('.arrival-time-field').value.trim();
-        const burst = input.querySelector('.burst-time-field').value.trim();
+        const id = input.querySelector('.processId').value.trim();
+        const arrival = input.querySelector('.arrivalTime').value.trim();
+        const burst = input.querySelector('.burstTime').value.trim();
         
         if (arrival === '' || burst === '') {
             alert('Process base entity cannot be empty!');
@@ -209,12 +197,12 @@ function roundRobin(processes, quantum) {
     const remainingBurstTimes = {};
     let detailedResult = 'Round Robin Scheduling:\n';
 
-    processes.forEach(proc => remainingBurstTimes[proc.id] = proc.burst-time-field);
+    processes.forEach(proc => remainingBurstTimes[proc.id] = proc.burstTime);
     
-    processes.sort((a, b) => a.arrival-time-field - b.arrival-time-field);
+    processes.sort((a, b) => a.arrivalTime - b.arrivalTime);
     
     while (processes.length > 0 || queue.length > 0) {
-        while (processes.length > 0 && processes[0].arrival-time-field <= time) {
+        while (processes.length > 0 && processes[0].arrivalTime <= time) {
             queue.push(processes.shift());
         }
         
@@ -272,12 +260,12 @@ function drawGanttChart(ganttData) {
 function drawGanttChart(ganttData) {
 
     let isValid = true;
-    const inputs = document.querySelectorAll('.process-input-row');
+    const inputs = document.querySelectorAll('.process-input');
 
     inputs.forEach(input => {
-        const id = input.querySelector('.process-id-field').value.trim();
-        const arrival = input.querySelector('.arrival-time-field').value.trim();
-        const burst = input.querySelector('.burst-time-field').value.trim();
+        const id = input.querySelector('.processId').value.trim();
+        const arrival = input.querySelector('.arrivalTime').value.trim();
+        const burst = input.querySelector('.burstTime').value.trim();
         
         if (arrival === '' || burst === '') {
             // alert('Process base entity cannot be empty!');
@@ -369,12 +357,12 @@ function roundRobin(processes, quantum) {
     const remainingBurstTimes = {};
     let detailedResult = 'Round Robin Scheduling:\n';
 
-    processes.forEach(proc => remainingBurstTimes[proc.id] = proc.burst-time-field);
+    processes.forEach(proc => remainingBurstTimes[proc.id] = proc.burstTime);
     
-    processes.sort((a, b) => a.arrival-time-field - b.arrival-time-field);
+    processes.sort((a, b) => a.arrivalTime - b.arrivalTime);
     
     while (processes.length > 0 || queue.length > 0) {
-        while (processes.length > 0 && processes[0].arrival-time-field <= time) {
+        while (processes.length > 0 && processes[0].arrivalTime <= time) {
             queue.push(processes.shift());
         }
         
@@ -400,28 +388,28 @@ function roundRobin(processes, quantum) {
     return ganttData;
 }
 
-document.getElementById("addProcessButton").addEventListener("click", function () {
+document.getElementById("addProcessBtn").addEventListener("click", function () {
     addProcess();
 });
 
 // Function to add a new process row dynamically
 function addProcess() {
-    const processContainer = document.getElementById("processInputBox");
+    const processContainer = document.getElementById("processInputContainer");
 
     const processDiv = document.createElement("div");
-    processDiv.classList.add("process-input-row");
+    processDiv.classList.add("process-input");
 
     processDiv.innerHTML = `
-        <input type="text" class="process-id-field" placeholder="Process ID" />
-        <input type="number" class="arrival-time-field" placeholder="Arrival Time" />
-        <input type="number" class="burst-time-field" placeholder="Burst Time" />
-        <button class="delete-process-button">Delete</button>
+        <input type="text" class="processId" placeholder="Process ID" />
+        <input type="number" class="arrivalTime" placeholder="Arrival Time" />
+        <input type="number" class="burstTime" placeholder="Burst Time" />
+        <button class="deleteProcessBtn">Delete</button>
     `;
 
     processContainer.appendChild(processDiv);
 
     // Attach event listener for delete button
-    processDiv.querySelector(".delete-process-button").addEventListener("click", function () {
+    processDiv.querySelector(".deleteProcessBtn").addEventListener("click", function () {
         processDiv.remove();
     });
 }
