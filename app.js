@@ -8,7 +8,6 @@ const ganttCtx = ganttCanvas.getContext('2d');
 const resultOutput = document.getElementById('simulationResult');
 const detailedResultOutput = document.getElementById('detailedResult');
 
-
 // Display time quantum input only for Round Robin
 algorithmSelect.addEventListener('change', function () {
     if (algorithmSelect.value === 'rr') {
@@ -39,67 +38,15 @@ function parseInput() {
     return processes;
 }
 
-// Function to simulate scheduling
-function startSimulation() {
-    const processes = parseInput();
-    const algorithm = algorithmSelect.value;
-    const timeQuantumVal = parseInt(timeQuantum.value);
-    
-    let ganttData = [];
-    let detailedResult = '';
-    
-    if (algorithm === 'fcfs') {
-        ganttData = fcfs(processes);
-    } else if (algorithm === 'sjf') {
-        ganttData = sjf(processes);
-    } else if (algorithm === 'rr') {
-        ganttData = roundRobin(processes, timeQuantumVal, detailedResult);
-    }
-    
-    drawGanttChart(ganttData);
-    resultOutput.innerText = `Results for ${algorithm.toUpperCase()} scheduling:`;
-    detailedResultOutput.innerText = detailedResult;
-}
-
 // FCFS Algorithm
 function fcfs(processes) {
-
-    let isValid = true;
-    const inputs = document.querySelectorAll('.process-input');
-
-    inputs.forEach(input => {
-        const id = input.querySelector('.processId').value.trim();
-        const arrival = input.querySelector('.arrivalTime').value.trim();
-        const burst = input.querySelector('.burstTime').value.trim();
-        
-        if (arrival === '' || burst === '') {
-            alert('Process base entity cannot be empty!');
-            isValid = false;
-            return;
-        }
-        
-        if (arrival === '' || isNaN(arrival) || parseInt(arrival) < 0) {
-            alert('Arrival Time must be a non-negative number!');
-            isValid = false;
-            return;
-        }
-        
-        if (burst === '' || isNaN(burst) || parseInt(burst) <= 0) {
-            alert('Burst Time must be a positive number!');
-            isValid = false;
-            return;
-        }
-    });
-
     let time = 0;
     const ganttData = [];
     
-    processes.sort((a, b) => a.arrivalTime - b.arrivalTime);  // Sort by arrival time
+    processes.sort((a, b) => a.arrivalTime - b.arrivalTime);
     
     processes.forEach((proc) => {
-        if (time < proc.arrivalTime) {
-            time = proc.arrivalTime;
-        }
+        if (time < proc.arrivalTime) time = proc.arrivalTime;
         ganttData.push({ id: proc.id, start: time, end: time + proc.burstTime });
         time += proc.burstTime;
     });
@@ -109,34 +56,6 @@ function fcfs(processes) {
 
 // SJF Algorithm (Non-Preemptive)
 function sjf(processes) {
-
-    let isValid = true;
-    const inputs = document.querySelectorAll('.process-input');
-
-    inputs.forEach(input => {
-        const id = input.querySelector('.processId').value.trim();
-        const arrival = input.querySelector('.arrivalTime').value.trim();
-        const burst = input.querySelector('.burstTime').value.trim();
-        
-        if (arrival === '' || burst === '') {
-            alert('Process base entity cannot be empty!');
-            isValid = false;
-            return;
-        }
-        
-        if (arrival === '' || isNaN(arrival) || parseInt(arrival) < 0) {
-            alert('Arrival Time must be a non-negative number!');
-            isValid = false;
-            return;
-        }
-        
-        if (burst === '' || isNaN(burst) || parseInt(burst) <= 0) {
-            alert('Burst Time must be a positive number!');
-            isValid = false;
-            return;
-        }
-    });
-
     let time = 0;
     const ganttData = [];
     const queue = [];
@@ -161,44 +80,14 @@ function sjf(processes) {
     return ganttData;
 }
 
-// Round Robin Algorithm
+// Round Robin Algorithm (FINAL version)
 function roundRobin(processes, quantum) {
-
-    let isValid = true;
-    const inputs = document.querySelectorAll('.process-input');
-
-    inputs.forEach(input => {
-        const id = input.querySelector('.processId').value.trim();
-        const arrival = input.querySelector('.arrivalTime').value.trim();
-        const burst = input.querySelector('.burstTime').value.trim();
-        
-        if (arrival === '' || burst === '') {
-            alert('Process base entity cannot be empty!');
-            isValid = false;
-            return;
-        }
-        
-        if (arrival === '' || isNaN(arrival) || parseInt(arrival) < 0) {
-            alert('Arrival Time must be a non-negative number!');
-            isValid = false;
-            return;
-        }
-        
-        if (burst === '' || isNaN(burst) || parseInt(burst) <= 0) {
-            alert('Burst Time must be a positive number!');
-            isValid = false;
-            return;
-        }
-    });
-
     let time = 0;
     const queue = [];
     const ganttData = [];
     const remainingBurstTimes = {};
-    let detailedResult = 'Round Robin Scheduling:\n';
 
     processes.forEach(proc => remainingBurstTimes[proc.id] = proc.burstTime);
-    
     processes.sort((a, b) => a.arrivalTime - b.arrivalTime);
     
     while (processes.length > 0 || queue.length > 0) {
@@ -211,14 +100,11 @@ function roundRobin(processes, quantum) {
             const burst = Math.min(quantum, remainingBurstTimes[proc.id]);
             
             ganttData.push({ id: proc.id, start: time, end: time + burst });
-            detailedResult += `Process ${proc.id} runs from ${time} to ${time + burst}.\n`;
             time += burst;
             remainingBurstTimes[proc.id] -= burst;
             
             if (remainingBurstTimes[proc.id] > 0) {
                 queue.push(proc);
-            } else {
-                detailedResult += `Process ${proc.id} finishes at ${time}.\n`;
             }
         } else {
             time++;
@@ -228,171 +114,65 @@ function roundRobin(processes, quantum) {
     return ganttData;
 }
 
-// Function to draw Gantt Chart
+// Draw Gantt Chart (FINAL version)
 function drawGanttChart(ganttData) {
-    const chartWidth = ganttCanvas.width;
     const chartHeight = ganttCanvas.height;
     const totalDuration = ganttData[ganttData.length - 1].end;
-    const unitWidth = chartWidth / totalDuration;
+    const unitWidth = 50;
+    const chartWidth = totalDuration * unitWidth;
     
+    ganttCanvas.width = chartWidth;
     ganttCtx.clearRect(0, 0, chartWidth, chartHeight);
     
     ganttData.forEach((block, index) => {
         const startX = block.start * unitWidth;
         const blockWidth = (block.end - block.start) * unitWidth;
         
-        // Draw rectangle for each process execution
         ganttCtx.fillStyle = `hsl(${index * 90}, 70%, 50%)`;
         ganttCtx.fillRect(startX, 50, blockWidth, 50);
         
-        // Add process label
         ganttCtx.fillStyle = 'white';
         ganttCtx.font = "16px Arial";
-        ganttCtx.fillText(block.id, startX + blockWidth / 2 - 10, 80);
+        ganttCtx.textAlign = "center";
+        ganttCtx.fillText(block.id, startX + blockWidth / 2, 80);
         
-        // Add time markers
-        ganttCtx.fillText(block.start, startX, 110);
-        ganttCtx.fillText(block.end, startX + blockWidth - 10, 110);
+        ganttCtx.fillStyle = 'black';
+        ganttCtx.textAlign = "left";
+        ganttCtx.fillText(block.start, startX, 120);
+        
+        ganttCtx.textAlign = "right";
+        ganttCtx.fillText(block.end, startX + blockWidth - 2, 120);
     });
-    return;
-}
-// Function to draw Gantt Chart with scrollable canvas
-function drawGanttChart(ganttData) {
-
-    let isValid = true;
-    const inputs = document.querySelectorAll('.process-input');
-
-    inputs.forEach(input => {
-        const id = input.querySelector('.processId').value.trim();
-        const arrival = input.querySelector('.arrivalTime').value.trim();
-        const burst = input.querySelector('.burstTime').value.trim();
-        
-        if (arrival === '' || burst === '') {
-            // alert('Process base entity cannot be empty!');
-            isValid = false;
-            return;
-        }
-        
-        if (arrival === '' || isNaN(arrival) || parseInt(arrival) < 0) {
-            // alert('Arrival Time must be a non-negative number!');
-            isValid = false;
-            return;
-        }
-        
-        if (burst === '' || isNaN(burst) || parseInt(burst) <= 0) {
-            // alert('Burst Time must be a positive number!');
-            isValid = false;
-            return;
-        }
-    });
-    if(isValid)
-    {
-
-        const chartHeight = ganttCanvas.height;
-        const totalDuration = ganttData[ganttData.length - 1].end;
-        const unitWidth = 50; // Fixed width for each time unit
-        const chartWidth = totalDuration * unitWidth;
-        
-        ganttCanvas.width = chartWidth; // Dynamically set the canvas width based on total duration
-        
-        ganttCtx.clearRect(0, 0, chartWidth, chartHeight);
-        
-        ganttData.forEach((block, index) => {
-            const startX = block.start * unitWidth;
-            const blockWidth = (block.end - block.start) * unitWidth;
-            
-            // Draw rectangle for each process execution
-            ganttCtx.fillStyle = `hsl(${index * 90}, 70%, 50%)`;
-            ganttCtx.fillRect(startX, 50, blockWidth, 50);
-            
-            // Add process label in the middle of the block
-            ganttCtx.fillStyle = 'white';
-            ganttCtx.font = "16px Arial";
-            ganttCtx.textAlign = "center";
-            ganttCtx.fillText(block.id, startX + blockWidth / 2, 80);
-            
-            // Add time markers without overlapping
-            ganttCtx.fillStyle = 'black';
-            ganttCtx.textAlign = "left";
-            ganttCtx.fillText(block.start, startX, 120);
-            ganttCtx.textAlign = "right";
-            ganttCtx.fillText(block.end, startX + blockWidth - 2, 120);
-        });
-    }   
 }
 
-// Function to simulate scheduling and calculate time frames
+// Start Simulation (FINAL version)
 function startSimulation() {
     const processes = parseInput();
     const algorithm = algorithmSelect.value;
-    const timeQuantumVal = parseInt(timeQuantum.value);
+    const quantum = parseInt(timeQuantum.value);
     
     let ganttData = [];
-    let detailedResult = '';
-    
-    if (algorithm === 'fcfs') {
-        ganttData = fcfs(processes);
-    } else if (algorithm === 'sjf') {
-        ganttData = sjf(processes);
-    } else if (algorithm === 'rr') {
-        ganttData = roundRobin(processes, timeQuantumVal);
-    }
+
+    if (algorithm === 'fcfs') ganttData = fcfs(processes);
+    else if (algorithm === 'sjf') ganttData = sjf(processes);
+    else if (algorithm === 'rr') ganttData = roundRobin(processes, quantum);
     
     drawGanttChart(ganttData);
     resultOutput.innerText = `Results for ${algorithm.toUpperCase()} scheduling:`;
     
-    // Generate detailed result with time frames
-    ganttData.forEach((block, index) => {
-        detailedResult += `Process ${block.id} runs from ${block.start} to ${block.end}.\n`;
+    let detailed = "";
+    ganttData.forEach(b => {
+        detailed += `Process ${b.id} runs from ${b.start} to ${b.end}.\n`;
     });
     
-    detailedResultOutput.innerText = detailedResult;
+    detailedResultOutput.innerText = detailed;
 }
 
-// Round Robin Algorithm (Updated for Correct Time Frames)
-function roundRobin(processes, quantum) {
-    let time = 0;
-    const queue = [];
-    const ganttData = [];
-    const remainingBurstTimes = {};
-    let detailedResult = 'Round Robin Scheduling:\n';
-
-    processes.forEach(proc => remainingBurstTimes[proc.id] = proc.burstTime);
-    
-    processes.sort((a, b) => a.arrivalTime - b.arrivalTime);
-    
-    while (processes.length > 0 || queue.length > 0) {
-        while (processes.length > 0 && processes[0].arrivalTime <= time) {
-            queue.push(processes.shift());
-        }
-        
-        if (queue.length > 0) {
-            const proc = queue.shift();
-            const burst = Math.min(quantum, remainingBurstTimes[proc.id]);
-            
-            ganttData.push({ id: proc.id, start: time, end: time + burst });
-            detailedResult += `Process ${proc.id} runs from ${time} to ${time + burst}.\n`;
-            time += burst;
-            remainingBurstTimes[proc.id] -= burst;
-            
-            if (remainingBurstTimes[proc.id] > 0) {
-                queue.push(proc);
-            } else {
-                detailedResult += `Process ${proc.id} finishes at ${time}.\n`;
-            }
-        } else {
-            time++;
-        }
-    }
-
-    return ganttData;
-}
-
+// Add Process dynamically
 document.getElementById("addProcessBtn").addEventListener("click", function () {
     addProcess();
 });
 
-// Function to add a new process row dynamically
 function addProcess() {
     const processContainer = document.getElementById("processInputContainer");
 
@@ -408,7 +188,6 @@ function addProcess() {
 
     processContainer.appendChild(processDiv);
 
-    // Attach event listener for delete button
     processDiv.querySelector(".deleteProcessBtn").addEventListener("click", function () {
         processDiv.remove();
     });
