@@ -18,7 +18,7 @@ A web-based project that demonstrates CPU scheduling algorithms through interact
 ├── 📄 index.html  
 ├── 🎨 style.css  
 ├── 📜 app.js  
-└── 📊 Workflow Structure Of CPU_Scheduling.svg  
+
 
 ## 💡 Features  
 ✅ Add multiple processes with **arrival time, burst time, and priority**  
