@@ -3,294 +3,105 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
-    color: #ffffff;
 }
 
 body {
-    background-color: #121212;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-color: #1e1e1e;
+    color: #fff;
     padding: 20px;
+    line-height: 1.6;
 }
 
 .container {
-    background-color: #1e1e1e;
-    border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
-    width: 100%;
-    max-width: 1200px;
-    animation: fadeIn 1s ease-in-out;
-}
-
-h1, h2 {
-    text-align: center;
-    color: #03DAC6;
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-}
-
-h1 {
-    font-size: 2.5rem;
-}
-
-#inputSection {
-    background-color: #2b2b2b;
+    max-width: 900px;
+    margin: auto;
+    background: #2b2b2b;
     padding: 20px;
     border-radius: 8px;
-    margin-bottom: 30px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.6s ease-in-out;
 }
 
-.process-input {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+    font-weight: 700;
 }
 
-input[type="text"], input[type="number"], select {
-    flex: 1; 
-    padding: 10px;
-    margin-bottom: 15px;
-    background-color: #333;
-    border: 1px solid #555;
+label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+input, select {
+    padding: 8px;
     border-radius: 5px;
-    color: #ffffff;
-    transition: border 0.3s ease-in-out, box-shadow 0.3s;
+    border: 1px solid #555;
+    background-color: #3c3c3c;
+    color: #fff;
+    width: 200px;
+    transition: border-color 0.3s ease;
 }
 
 input:focus, select:focus {
-    border-color: #03DAC6;
-    box-shadow: 0 0 8px rgba(3, 218, 198, 0.5);
+    border-color: #007acc;
     outline: none;
 }
 
 button {
-    background-color: #03DAC6;
-    color: #121212;
-    padding: 12px 18px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 6px;
+    background-color: #007acc;
+    color: #fff;
     cursor: pointer;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s;
-    margin-right: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    margin-top: 15px;
 }
 
 button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(3, 218, 198, 0.4);
+    background-color: #005f99;
 }
 
-#timeQuantumInput {
-    display: none;
+button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
 }
 
-#ganttChartSection {
-    background-color: #2b2b2b;
-    padding: 20px;
+#processInputContainer {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #232323;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    margin-bottom: 30px;
-    animation: slideUp 0.7s ease-in-out;
-    overflow: auto; 
-    white-space: nowrap; 
-    max-width: 100%;
-    max-height: 300px; 
     border: 1px solid #444;
+    animation: slideUp 0.7s ease-in-out;
 }
 
-#ganttChartSection::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+#processTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
 }
 
-#ganttChartSection::-webkit-scrollbar-track {
-    background: #1e1e1e;
+#processTable th, #processTable td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #555;
 }
 
-#ganttChartSection::-webkit-scrollbar-thumb {
-    background: #03DAC6;
-    border-radius: 5px;
-}
-
-#ganttChartSection::-webkit-scrollbar-thumb:hover {
-    background: #02c2b0;
-}
-
-canvas {
+#processTable th {
     background-color: #333;
-    border-radius: 5px;
-    width: 2000px; 
-    height: 500px;
 }
 
-#outputSection, #resultSection {
-    background-color: #2b2b2b;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    animation: fadeIn 1.5s ease-in-out;
+#processTable td {
+    background-color: #1e1e1e;
 }
 
-#simulationResult, #detailedResult {
-    font-family: 'Courier New', monospace;
-    font-size: 1rem;
-    color: #BB86FC;
-}
-@media only screen and (max-width: 1200px) {
-    .container {
-        padding: 20px;
-    }
-    
-    h1 {
-        font-size: 2.2rem;
-    }
-
-    h2 {
-        font-size: 1.6rem;
-    }
-
-    button {
-        padding: 10px 15px;
-    }
-}
-
-@media only screen and (max-width: 992px) {
-    h1 {
-        font-size: 2rem;
-    }
-
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    input[type="text"], input[type="number"], select {
-        width: 100%;
-        font-size: 0.9rem;
-    }
-
-    #ganttChartSection {
-        height: 220px;
-    }
-
-    canvas {
-        width: 1800px;
-        height: 450px;
-    }
-}
-
-@media only screen and (max-width: 768px) {
-    h1 {
-        font-size: 1.8rem;
-    }
-
-    h2 {
-        font-size: 1.3rem;
-    }
-
-    input[type="text"], input[type="number"], select {
-        font-size: 0.85rem;
-    }
-
-    #ganttChartSection {
-        height: 200px;
-    }
-
-    canvas {
-        width: 1600px;
-        height: 400px;
-    }
-    
-    button {
-        font-size: 0.85rem;
-        padding: 8px 12px;
-    }
-}
-
-@media only screen and (max-width: 576px) {
-    .container {
-        padding: 15px;
-    }
-
-    h1 {
-        font-size: 1.6rem;
-    }
-
-    h2 {
-        font-size: 1.2rem;
-    }
-
-    input[type="text"], input[type="number"], select {
-        font-size: 0.8rem;
-        padding: 8px;
-    }
-
-    button {
-        padding: 7px 10px;
-        font-size: 0.8rem;
-    }
-
-    #ganttChartSection {
-        height: 180px;
-    }
-
-    canvas {
-        width: 1400px;
-        height: 350px;
-    }
-}
-
-@media only screen and (max-width: 400px) {
-    h1 {
-        font-size: 1.4rem;
-    }
-
-    h2 {
-        font-size: 1.1rem;
-    }
-
-    button {
-        padding: 6px 8px;
-        font-size: 0.75rem;
-    }
-
-    input[type="text"], input[type="number"], select {
-        font-size: 0.75rem;
-        padding: 6px;
-    }
-
-    #ganttChartSection {
-        height: 160px;
-    }
-
-    canvas {
-        width: 1200px;
-        height: 300px;
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+#processTable tbody tr:hover {
+    background-color: #292929;
 }
 
 #ganttChartSection {
@@ -300,57 +111,78 @@ canvas {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
     margin-bottom: 20px;
     animation: slideUp 0.7s ease-in-out;
-    overflow: auto; 
-    white-space: nowrap; 
+    overflow: auto;
+    white-space: nowrap;
     max-width: 100%;
-    max-height: 150px;
     border: 1px solid #444;
 }
 
-#ganttChartSection::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-#ganttChartSection::-webkit-scrollbar-track {
-    background: #1e1e1e;
-}
-
-#ganttChartSection::-webkit-scrollbar-thumb {
-    background: #03DAC6;
-    border-radius: 5px;
-}
-
-#ganttChartSection::-webkit-scrollbar-thumb:hover {
-    background: #02c2b0;
-}
-
 canvas {
-    background-color: #333;
-    border-radius: 5px;
     width: 1800px;
-    height: 120px; 
+    height: 150px;
+    background-color: #1e1e1e;
+    border: 1px solid #555;
+    display: block;
 }
 
-.process-input {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
+#resultOutput {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #232323;
+    border-radius: 8px;
+    border: 1px solid #444;
+    animation: slideUp 0.7s ease-in-out;
 }
 
-.process-input input {
-    padding: 5px;
-    width: 120px;
+pre {
+    background-color: #1e1e1e;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    overflow-x: auto;
+    white-space: pre-wrap;
 }
 
-.deleteProcessBtn {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+::-webkit-scrollbar {
+    height: 8px;
+    width: 8px;
 }
 
-.deleteProcessBtn:hover {
-    background-color: darkred;
+::-webkit-scrollbar-track {
+    background: #2b2b2b;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #007acc;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    input, select {
+        width: 100%;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    canvas {
+        width: 1200px;
+        height: 130px;
+    }
 }

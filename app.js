@@ -80,7 +80,7 @@ function sjf(processes) {
     return ganttData;
 }
 
-// Round Robin Algorithm (FINAL version)
+// Round Robin Algorithm :
 function roundRobin(processes, quantum) {
     let time = 0;
     const queue = [];
@@ -114,7 +114,7 @@ function roundRobin(processes, quantum) {
     return ganttData;
 }
 
-// Draw Gantt Chart (FINAL version)
+// Draw Gantt Chart :
 function drawGanttChart(ganttData) {
     const chartHeight = ganttCanvas.height;
     const totalDuration = ganttData[ganttData.length - 1].end;
@@ -145,7 +145,7 @@ function drawGanttChart(ganttData) {
     });
 }
 
-// Start Simulation (FINAL version)
+// Start Simulation 
 function startSimulation() {
     const processes = parseInput();
     const algorithm = algorithmSelect.value;
